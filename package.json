@@ -1,0 +1,40 @@
+{
+  "name": "grunt-hogan",
+  "description": "Concatenate Mustache templates to Hogan.js file.",
+  "version": "0.1.0",
+  "homepage": "https://github.com/maxbeatty/grunt-hogan",
+  "author": {
+    "name": "Max Beatty",
+    "email": "max.beatty@reputation.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maxbeatty/grunt-hogan.git"
+  },
+  "bugs": {
+    "url": "https://github.com/maxbeatty/grunt-hogan/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/maxbeatty/grunt-hogan/blob/master/LICENSE-MIT"
+    }
+  ],
+  "main": "grunt.js",
+  "bin": "bin/grunt-hogan",
+  "engines": {
+    "node": "*"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "dependencies": {
+    "grunt": "~0.3.9"
+  },
+  "devDependencies": {
+    "grunt": "~0.3.9"
+  },
+  "keywords": [
+    "gruntplugin"
+  ]
+}
