@@ -1,6 +1,6 @@
 {
   "name": "grunt-tpl",
-  "description": "Compile Mustache templates with Hogan.js and concatenate to one object in one file.",
+  "description": "Concatenate templates to one object in one file.",
   "version": "0.1.0",
   "homepage": "https://github.com/maxbeatty/grunt-tpl",
   "author": {

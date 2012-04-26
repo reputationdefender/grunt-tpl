@@ -35,9 +35,10 @@ exports['tpl'] = {
         ],
         namespace = 't';
 
-    test.equal(grunt.helper('tpl', files, namespace),
+    test.equal(
+      grunt.helper('tpl', files, namespace),
       'this[\'t\'] = this[\'t\'] || {};\n\nthis[\'t\'][\'a\'] = \'Hello {{a}}\';\n\nthis[\'t\'][\'b\'] = \'<ul>{{#items}}  <li>{{.}}</li>{{/items}}</ul>\';\n\nthis[\'t\'][\'c\'] = \'template {{c}}\';',
-      'It should compile and concatenate files'
+      'It should concatenate template files'
     );
 
     test.done();

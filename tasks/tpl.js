@@ -1,6 +1,6 @@
 /*
- * grunt-hogan
- * https://github.com/maxbeatty/grunt-hogan
+ * grunt-tpl
+ * https://github.com/maxbeatty/grunt-tpl
  *
  * Copyright (c) 2012 Max Beatty
  * Licensed under the MIT license.
@@ -15,7 +15,7 @@ module.exports = function(grunt) {
   // TASKS
   // ==========================================================================
 
-  grunt.registerMultiTask('hogan', 'Concatenate mustache templates to Hogan.js file.', function(template) {
+  grunt.registerMultiTask('tpl', 'Concatenate templates to one object in one file.', function(template) {
 
     if (this.file.dest[this.file.dest.length - 1] === '/') {
       grunt.fatal('never use path as filename');
@@ -29,7 +29,7 @@ module.exports = function(grunt) {
     // if filename has extension, remove it
     namespace = namespace.substring(0, namespace.lastIndexOf('.')) || namespace;
 
-    grunt.file.write(this.file.dest, grunt.helper('hogan', files, namespace));
+    grunt.file.write(this.file.dest, grunt.helper('tpl', files, namespace));
 
     // Fail task if errors were logged.
     if (this.errorCount) { return false; }
@@ -42,10 +42,10 @@ module.exports = function(grunt) {
   // HELPERS
   // ==========================================================================
 
-  grunt.registerHelper('hogan', function(files, namespace) {
+  grunt.registerHelper('tpl', function(files, namespace) {
     namespace = "this['" + namespace + "']";
 
-    // Comes out looking like this["Hogan"] = this["Hogan"] || {};
+    // this["ns"] = this["ns"] || {};
     var contents = namespace + " = " + namespace + " || {};\n\n";
 
     contents += files ? files.map(function(filepath) {
