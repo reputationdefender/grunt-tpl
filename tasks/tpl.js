@@ -15,8 +15,7 @@ module.exports = function(grunt) {
   // TASKS
   // ==========================================================================
 
-  grunt.registerMultiTask('tpl', 'Concatenate templates to one object in one file.', function(template) {
-
+  grunt.registerMultiTask('tpl', 'Concatenate templates to one object in one file.', function() {
     if (this.file.dest[this.file.dest.length - 1] === '/') {
       grunt.fatal('never use path as filename');
       return false;
