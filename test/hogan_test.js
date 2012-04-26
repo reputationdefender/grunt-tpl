@@ -28,7 +28,18 @@ exports['hogan'] = {
   'helper': function(test) {
     test.expect(1);
     // tests here
-    test.equal(grunt.helper('hogan'), 'hogan!!!', 'should return the correct value.');
+    var files = [
+          'test/templates/a.mustache',
+          'test/templates/b.hogan',
+          'test/templates/c'
+        ],
+        namespace = 't';
+
+    test.equal(grunt.helper('hogan', files, namespace),
+      'this[\'t\'] = this[\'t\'] || {};\n\nthis[\'t\'][\'a\'] = \'Hello {{a}}\';\n\nthis[\'t\'][\'b\'] = \'<ul>{{#items}}  <li>{{.}}</li>{{/items}}</ul>\';\n\nthis[\'t\'][\'c\'] = \'template {{c}}\';',
+      'It should compile and concatenate files'
+    );
+
     test.done();
   }
 };
