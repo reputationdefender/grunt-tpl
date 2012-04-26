@@ -20,7 +20,7 @@ var grunt = require('grunt');
     test.ifError(value)
 */
 
-exports['hogan'] = {
+exports['tpl'] = {
   setUp: function(done) {
     // setup here
     done();
@@ -30,12 +30,12 @@ exports['hogan'] = {
     // tests here
     var files = [
           'test/templates/a.mustache',
-          'test/templates/b.hogan',
+          'test/templates/b.tpl',
           'test/templates/c'
         ],
         namespace = 't';
 
-    test.equal(grunt.helper('hogan', files, namespace),
+    test.equal(grunt.helper('tpl', files, namespace),
       'this[\'t\'] = this[\'t\'] || {};\n\nthis[\'t\'][\'a\'] = \'Hello {{a}}\';\n\nthis[\'t\'][\'b\'] = \'<ul>{{#items}}  <li>{{.}}</li>{{/items}}</ul>\';\n\nthis[\'t\'][\'c\'] = \'template {{c}}\';',
       'It should compile and concatenate files'
     );

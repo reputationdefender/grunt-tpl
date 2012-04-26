@@ -1,27 +1,27 @@
 {
-  "name": "grunt-hogan",
-  "description": "Concatenate Mustache templates to Hogan.js file.",
+  "name": "grunt-tpl",
+  "description": "Compile Mustache templates with Hogan.js and concatenate to one object in one file.",
   "version": "0.1.0",
-  "homepage": "https://github.com/maxbeatty/grunt-hogan",
+  "homepage": "https://github.com/maxbeatty/grunt-tpl",
   "author": {
     "name": "Max Beatty",
     "email": "max.beatty@reputation.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/maxbeatty/grunt-hogan.git"
+    "url": "https://github.com/maxbeatty/grunt-tpl.git"
   },
   "bugs": {
-    "url": "https://github.com/maxbeatty/grunt-hogan/issues"
+    "url": "https://github.com/maxbeatty/grunt-tpl/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/maxbeatty/grunt-hogan/blob/master/LICENSE-MIT"
+      "url": "https://github.com/maxbeatty/grunt-tpl/blob/master/LICENSE-MIT"
     }
   ],
   "main": "grunt.js",
-  "bin": "bin/grunt-hogan",
+  "bin": "bin/grunt-tpl",
   "engines": {
     "node": "*"
   },
