@@ -1,7 +1,7 @@
 {
   "name": "grunt-tpl",
   "description": "Concatenate templates to one object in one file.",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "homepage": "https://github.com/maxbeatty/grunt-tpl",
   "author": {
     "name": "Max Beatty",
