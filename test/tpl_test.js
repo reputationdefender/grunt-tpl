@@ -34,11 +34,8 @@ exports['tpl'] = {
           'test/templates/c'
         ],
         ns = 't',
-        // error passing in arguments to helper in tests...
-        // contents = grunt.helper('tpl', f, ns),
-        // expected = 'this[\'t\'] = this[\'t\'] || {};\n\nthis[\'t\'][\'a\'] = \'Hello {{a}}\';\n\nthis[\'t\'][\'b\'] = \'<ul>{{#items}}  <li>{{.}}</li>{{/items}}</ul>\';\n\nthis[\'t\'][\'c\'] = \'template {{c}}\';';
-        contents = grunt.helper('tpl'),
-        expected = 'this[\'undefined\'] = this[\'undefined\'] || {};\n\n';
+        contents = grunt.helper('tpl', f, ns),
+        expected = 'this[\'t\'] = this[\'t\'] || {};\n\nthis[\'t\'][\'a\'] = \'Hello {{a}}\';\n\nthis[\'t\'][\'b\'] = \'<ul>{{#items}}  <li>{{.}}</li>{{/items}}</ul>\';\n\nthis[\'t\'][\'c\'] = \'template {{c}}\';';
 
     test.equal(contents, expected, 'It should concatenate template files');
 

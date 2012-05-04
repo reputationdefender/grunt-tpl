@@ -42,6 +42,7 @@ module.exports = function(grunt) {
   // ==========================================================================
 
   grunt.registerHelper('tpl', function(files, namespace) {
+
     namespace = "this['" + namespace + "']";
 
     // this["ns"] = this["ns"] || {};
@@ -52,7 +53,6 @@ module.exports = function(grunt) {
       var templateName = filepath.substring(filepath.lastIndexOf('/') + 1),
           raw = grunt.file.read(filepath),
           content = raw.replace(/(\r\n|\n|\r)/gm,"");
-
       // just incase someone is using templates without file extensions
       templateName = templateName.substring(0, templateName.lastIndexOf('.')) || templateName;
 
