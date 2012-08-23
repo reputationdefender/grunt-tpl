@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/reputation/grunt-tpl.png)](http://travis-ci.org/reputation/grunt-tpl)
 # grunt-tpl
 
 Concatenate templates to one object in one file.
