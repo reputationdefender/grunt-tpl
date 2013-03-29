@@ -1,40 +1,61 @@
+/*
+ * grunt-tpl
+ * http://github.com/reputation/grunt-tpl
+ *
+ * Copyright (c) 2013 Reputation, contributors
+ * Licensed under the MIT license.
+ */
+
+'use strict';
+
 module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
-    test: {
-      files: ['test/**/*.js']
-    },
-    lint: {
-      files: ['grunt.js', 'tasks/**/*.js', 'test/**/*.js']
-    },
-    watch: {
-      files: '<config:lint.files>',
-      tasks: 'default'
-    },
     jshint: {
+      all: [
+        'Gruntfile.js',
+        'tasks/*.js',
+        '<%= nodeunit.tests %>'
+      ],
       options: {
-        curly: true,
-        eqeqeq: true,
-        immed: true,
-        latedef: true,
-        newcap: true,
-        noarg: true,
-        sub: true,
-        undef: true,
-        boss: true,
-        eqnull: true,
-        node: true,
-        es5: true
+        jshintrc: '.jshintrc'
       },
-      globals: {}
-    }
+    },
+
+    // Configuration to be run (and then tested).
+    tpl: {
+      "/tmp/tpl/templates.js": [
+        'test/templates/a.mustache',
+        'test/templates/b.tpl',
+        'test/templates/c'
+      ]
+    },
+
+    // Unit tests.
+    nodeunit: {
+      tests: ['test/*_test.js'],
+    },
   });
 
-  // Load local tasks.
+  // Actually load this plugin's task(s).
   grunt.loadTasks('tasks');
 
-  // Default task.
-  grunt.registerTask('default', 'lint test');
+  // These plugins provide necessary tasks.
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-nodeunit');
+  grunt.loadNpmTasks('grunt-contrib-internal');
 
+  // Setup a test helper to create some folders to clean.
+  grunt.registerTask('copy', 'Copy fixtures to a temp location.', function() {
+    grunt.file.copy('test/fixtures/sample_long/long.txt', 'tmp/sample_long/long.txt');
+    grunt.file.copy('test/fixtures/sample_short/short.txt', 'tmp/sample_short/short.txt');
+  });
+
+  // Whenever the 'test' task is run, first create some files to be cleaned,
+  // then run this plugin's task(s), then test the result.
+  grunt.registerTask('test', ['copy', 'clean', 'nodeunit']);
+
+  // By default, lint and run all tests.
+  grunt.registerTask('default', ['jshint', 'test', 'build-contrib']);
 };
