@@ -1,5 +1,3 @@
-var grunt = require('grunt');
-
 /*
   ======== A Handy Little Nodeunit Reference ========
   https://github.com/caolan/nodeunit
@@ -20,22 +18,16 @@ var grunt = require('grunt');
     test.ifError(value)
 */
 
-exports['tpl'] = {
-  setUp: function(done) {
-    // setup here
-    done();
-  },
-  'helper': function(test) {
+'use strict';
+
+var grunt = require('grunt');
+
+exports.tpl = {
+  long: function(test) {
     test.expect(1);
-    // tests here
-    var f = [
-          'test/templates/a.mustache',
-          'test/templates/b.tpl',
-          'test/templates/c'
-        ],
-        ns = 't',
-        contents = grunt.helper('tpl', f, ns),
-        expected = 'this[\'t\'] = this[\'t\'] || {};\n\nthis[\'t\'][\'a\'] = \'Hello {{a}}\';\n\nthis[\'t\'][\'b\'] = \'<ul>{{#items}}  <li>{{.}}</li>{{/items}}</ul>\';\n\nthis[\'t\'][\'c\'] = \'template {{c}}\';';
+
+    var contents = grunt.file.read('/tmp/tpl/t.js'),
+        expected = "t = t || {};\n\nt['a'] = 'Hello {{a}}';\n\nt['b'] = '<ul>{{#items}}  <li>{{.}}</li>{{/items}}</ul>';\n\nt['c'] = 'template {{c}}';\n\n";
 
     test.equal(contents, expected, 'It should concatenate template files');
 
