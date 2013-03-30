@@ -91,7 +91,9 @@ h.render(info);
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt][grunt].
 
 ## Release History
+
 2013/03/28 - v1.0.0 - Update to grunt 4.0.0.
+
 2012/04/25 - v0.1.0 - Initial release.
 
 ## License
