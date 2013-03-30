@@ -27,6 +27,8 @@ module.exports = function(grunt) {
 
     // if filename has extension, remove it
     namespace = namespace.substring(0, namespace.lastIndexOf('.')) || namespace;
+    
+    namespace = "this['" + namespace + "']";
 
     var contents = namespace + " = " + namespace + " || {};\n\n";
 
