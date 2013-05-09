@@ -10,56 +10,67 @@
 'use strict';
 
 module.exports = function(grunt) {
+
+  // filename conversion for templates
+  var defaultProcessName = function(name) { return name; };
+
   grunt.registerMultiTask('tpl', 'Concatenate templates to one object in one file.', function() {
+    var lf = grunt.util.linefeed;
+    var helpers = require('grunt-lib-contrib').init(grunt);
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
-      force: false
+      namespace: 'templates',
+      templateSettings: {},
+      processContent: function (src) { return src; },
+      separator: lf + lf
     });
 
-    if (this.target[this.target.length - 1] === '/') {
-      grunt.fail.warn("never use path as filename");
-    }
+    // assign filename transformation functions
+    var processName = options.processName || defaultProcessName;
 
     grunt.verbose.writeflags(options, 'Options');
 
-    // get the namespace from the destination
-    var namespace = this.target.substring(this.target.lastIndexOf('/') + 1);
+    var nsInfo;
+    if (options.namespace !== false) {
+      nsInfo = helpers.getNamespaceDeclaration(options.namespace);
+    }
 
-    // if filename has extension, remove it
-    namespace = namespace.substring(0, namespace.lastIndexOf('.')) || namespace;
-    
-    namespace = "this['" + namespace + "']";
+    this.files.forEach(function(f) {
+      var output = f.src.filter(function(filepath) {
+        // Warn on and remove invalid source files (if nonull was set).
+        if (!grunt.file.exists(filepath)) {
+          grunt.log.warn('Source file "' + filepath + '" not found.');
+          return false;
+        } else {
+          return true;
+        }
+      })
+      .map(function(filepath) {
+        var src = options.processContent(grunt.file.read(filepath));
+        var content, filename;
 
-    var contents = namespace + " = " + namespace + " || {};\n\n";
+        try {
+          // get the template name from the source file
+          filename = processName(filepath);
 
-    this.filesSrc.forEach(function(filepath) {
-      if (!grunt.file.exists(filepath)) { return; }
-      grunt.log.write('Templating "' + filepath + '"...\n');
+          content = src.replace(/(\r\n|\n|\r)/gm,"");
+        } catch (e) {
+          grunt.log.error(e);
+          grunt.fail.warn('template failed to compile.');
+        }
 
-      try {
-        var content = grunt.file.read(filepath),
-            // get the template name from the source file
-            templateName = filepath.substring(filepath.lastIndexOf('/') + 1);
-        content = content.replace(/(\r\n|\n|\r)/gm,"");
-        // just in case someone is using templates without file extensions, remove the extension
-        templateName = templateName.substring(0, templateName.lastIndexOf('.')) || templateName;
-        // store as t["namespace"] = 'content';
-        contents += namespace + "['" + templateName + "'] = '"+ content +"';\n\n";
-      } catch (e) {
-        grunt.log.error();
-        grunt.verbose.error(e);
-        grunt.fail.warn('Templating operation failed');
+        return nsInfo.namespace+'['+JSON.stringify(filename)+"] = '"+content+"';";
+      });
+
+      if (output.length < 1) {
+        grunt.log.warn('Destination not written because content files were empty.');
+      } else {
+        if (options.namespace !== false) {
+          output.unshift(nsInfo.declaration);
+        }
+        grunt.file.write(f.dest, output.join(grunt.util.normalizelf(options.separator)));
+        grunt.log.writeln('File "' + f.dest + '" created.');
       }
     });
-
-    // now that all the files are combined, write them to a single target file
-    try {
-      grunt.file.write(this.target, contents);
-      grunt.log.ok();
-    } catch (e) {
-      grunt.log.error();
-      grunt.verbose.error(e);
-      grunt.fail.warn('Writing of template failed');
-    }
   });
 };

@@ -27,7 +27,7 @@ exports.tpl = {
     test.expect(1);
 
     var contents = grunt.file.read('/tmp/tpl/t.js'),
-        expected = "t = t || {};\n\nt['a'] = 'Hello {{a}}';\n\nt['b'] = '<ul>{{#items}}  <li>{{.}}</li>{{/items}}</ul>';\n\nt['c'] = 'template {{c}}';\n\n";
+        expected = "this[\"templates\"] = this[\"templates\"] || {};\n\nthis[\"templates\"][\"a\"] = 'Hello {{a}}';\n\nthis[\"templates\"][\"b\"] = '<ul>{{#items}}  <li>{{.}}</li>{{/items}}</ul>';\n\nthis[\"templates\"][\"c\"] = 'template {{c}}';";
 
     test.equal(contents, expected, 'It should concatenate template files');
 
