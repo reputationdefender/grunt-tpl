@@ -1,7 +1,7 @@
 {
   "name": "grunt-tpl",
   "description": "Concatenate templates to one object in one file.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "homepage": "https://github.com/reputation/grunt-tpl",
   "author": {
     "name": "Jeff Harnois",
