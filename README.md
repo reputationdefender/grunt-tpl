@@ -1,5 +1,7 @@
 # grunt-tpl
 
+[![Build Status](https://travis-ci.org/popox/grunt-tpl.png)](https://travis-ci.org/popox/grunt-tpl)
+
 Concatenate templates to one object in one file.
 
 ## Getting Started
@@ -31,10 +33,18 @@ grunt.initConfig({
 ```
 
 Specify the paths to the concatenated template files as keys. That filename (extension or not) will be used to namespace the Object. The values can be a string or array of strings to relative or absolute paths to your template files. You can use wildcards such as `/**/*` and `/*.js` as documented by [minimatch](https://github.com/isaacs/minimatch).
+The key to access each given template file will by default be the filepath (without the extension) omitting the path before any 'templates/' directory found.
+
+#### Options
+
+You can specify an ```options``` node in the grunt task configuration to override:
+
+- the ```namespace``` used to export the templates
+- the ```processName``` function that will return the key to use for each template
 
 ### Example
 
-Assume you have three Mustache templates named `a.mustache`, `b.tpl`, and `c` in a directory `test/templates/`.
+Assume you have three Mustache templates named `a.mustache`, `b.tpl`, and `c` in respective directories `test/templates/here` `test/templates/there` and `test/templates`.
 
 #### a.mustache
 
@@ -59,12 +69,52 @@ grunt.initConfig({
   // ... other configs
 
   tpl: {
-    "simple/path/t.js": ["test/templates/*"]
+    "simple/path/t.js": ["test/templates/**/*"]
   }
 
   // ... other configs
 });
 ```
+
+The generated file will then look like:
+
+#### t.js
+
+```javascript
+this['t'] = this['t'] || {};
+
+this['t']['here/a'] = 'Hello {{a}}';
+
+this['t']['there/b'] = '<ul>{{#items}}  <li>{{.}}</li>{{/items}}</ul>';
+
+this['t']['c'] = 'template {{c}}';
+```
+
+If you override the options to have only the filenames of your templates to be used as keys in the object with this grunt configuration:
+
+```
+grunt.initConfig({
+    tpl: {
+      task: {
+        options: {
+          namespace: "t",
+          processName: function(filename) {
+            filename = filename.slice(filename.lastIndexOf('/') + 1, filename.length);
+            if (filename.indexOf('.') !== -1) {
+              filename = filename.slice(0, filename.lastIndexOf('.'));
+            }
+            return filename;
+          }
+        },
+        files: {
+          "/tmp/tpl/t.js": ['test/templates/**/*']
+        }
+      }
+    }
+});
+```
+
+the resulting file will be
 
 #### t.js
 
@@ -78,7 +128,6 @@ this['t']['b'] = '<ul>{{#items}}  <li>{{.}}</li>{{/items}}</ul>';
 this['t']['c'] = 'template {{c}}';
 ```
 
-**The filenames of your templates will be used as keys in the object**
 
 You can then compile these at any time.
 

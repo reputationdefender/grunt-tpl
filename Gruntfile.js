@@ -33,21 +33,9 @@ module.exports = function(grunt) {
     // Configuration to be run (and then tested).
     tpl: {
       task: {
-        options: {
-          namespace: "templates",
-          processName: function(filename) {
-            filename = filename.slice(filename.lastIndexOf('/') + 1, filename.length);
-            if (filename.indexOf('.') !== -1) {
-              filename = filename.slice(0, filename.lastIndexOf('.'));
-            }
-            return filename;
-          }
-        },
         files: {
           "/tmp/tpl/t.js": [
-            'test/templates/a.mustache',
-            'test/templates/b.tpl',
-            'test/templates/c'
+            'test/templates/**/*'
           ]
         }
       }
