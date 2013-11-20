@@ -1,5 +1,7 @@
 # grunt-tpl
 
+[![Build Status](https://travis-ci.org/popox/grunt-tpl.png)](https://travis-ci.org/popox/grunt-tpl)
+
 Concatenate templates to one object in one file.
 
 ## Getting Started
