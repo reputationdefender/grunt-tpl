@@ -11,8 +11,16 @@
 
 module.exports = function(grunt) {
 
-  // filename conversion for templates
-  var defaultProcessName = function(name) { return name; };
+  // filename conversion for templates keys : Remove filename extension
+  // And keep full filepath except if it contains a templates/ dir
+  var defaultProcessName = function(filename) {
+    filename = filename.slice(filename.lastIndexOf('templates/'), filename.length);
+    filename = filename.slice(filename.indexOf('/') + 1, filename.length);
+    if (filename.indexOf('.') !== -1) {
+      filename = filename.slice(0, filename.lastIndexOf('.'));
+    }
+    return filename;
+  };
 
   grunt.registerMultiTask('tpl', 'Concatenate templates to one object in one file.', function() {
     var lf = grunt.util.linefeed;
@@ -42,7 +50,7 @@ module.exports = function(grunt) {
           grunt.log.warn('Source file "' + filepath + '" not found.');
           return false;
         } else {
-          return true;
+          return grunt.file.isFile(filepath);
         }
       })
       .map(function(filepath) {
