@@ -53,7 +53,7 @@ module.exports = function(grunt) {
           // get the template name from the source file
           filename = processName(filepath);
 
-          content = src.replace(/(\r\n|\n|\r)/gm,"").replace("\'","&rsquo;");
+          content = src.replace(/(\r\n|\n|\r)/gm,"").replace(/\'/g,"\\'");
         } catch (e) {
           grunt.log.error(e);
           grunt.fail.warn('template failed to compile.');
