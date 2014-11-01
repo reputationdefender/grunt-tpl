@@ -1,4 +1,6 @@
-# grunt-tpl
+# grunt-tpl-amd
+
+Is a fork of [grunt-tpl](https://www.npmjs.org/package/grunt-tpl) module with fixed bugs and AMD capability
 
 Concatenate templates to one object in one file.
 
