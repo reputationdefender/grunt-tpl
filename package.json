@@ -1,6 +1,6 @@
 {
-  "name": "grunt-tpl",
-  "description": "Concatenate templates to one object in one file.",
+  "name": "grunt-tpl-amd",
+  "description": "Concatenate templates to one object in one file. Supports defining templates as an AMD module",
   "version": "1.0.2",
   "homepage": "https://github.com/reputation/grunt-tpl",
   "author": {
