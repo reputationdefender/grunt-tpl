@@ -14,6 +14,16 @@ module.exports = function(grunt) {
   // filename conversion for templates
   var defaultProcessName = function(name) { return name; };
 
+  // amd wrapping
+  var makeAMD = function(content, namespace) {
+    return  "define([], function() {" +
+              "function tpl() {" +
+                content + " " +
+                "return " + namespace +
+              "};" +
+            " return new tpl(); })";
+  }
+
   grunt.registerMultiTask('tpl', 'Concatenate templates to one object in one file.', function() {
     var lf = grunt.util.linefeed;
     var helpers = require('grunt-lib-contrib').init(grunt);
@@ -27,6 +37,7 @@ module.exports = function(grunt) {
 
     // assign filename transformation functions
     var processName = options.processName || defaultProcessName;
+    var amd = !!options.amd;
 
     grunt.verbose.writeflags(options, 'Options');
 
@@ -53,7 +64,7 @@ module.exports = function(grunt) {
           // get the template name from the source file
           filename = processName(filepath);
 
-          content = src.replace(/(\r\n|\n|\r)/gm,"").replace("\'","&rsquo;");
+          content = src.replace(/(\r\n|\n|\r)/gm,"").replace(/\'/g,"\\'");
         } catch (e) {
           grunt.log.error(e);
           grunt.fail.warn('template failed to compile.');
@@ -68,7 +79,11 @@ module.exports = function(grunt) {
         if (options.namespace !== false) {
           output.unshift(nsInfo.declaration);
         }
-        grunt.file.write(f.dest, output.join(grunt.util.normalizelf(options.separator)));
+        var output = output.join(grunt.util.normalizelf(options.separator));
+        if (amd) {
+          output = makeAMD(output, nsInfo.namespace);
+        }
+        grunt.file.write(f.dest, output);
         grunt.log.writeln('File "' + f.dest + '" created.');
       }
     });
